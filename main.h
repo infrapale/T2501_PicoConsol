@@ -3,20 +3,20 @@
 
 
 #define BOARD_PICO_TFT_4KEYS
-//#define PIRPANA
+#define PIRPANA
 //#define LILLA_ASTRID
-#define VILLA_ASTRID
+//#define VILLA_ASTRID
 
 #include "io.h"
 #include "atask.h"
 
 #define LABEL_LEN           12
 #define TXT_LEN             40
-#define TIME_ZONE_OFFS      3
+#define TIME_ZONE_OFFS      2
 #define UNIT_LABEL_LEN      10
 #define MEASURE_LABEL_LEN   16
 
-#define APP_NAME   "T2312_PicoConsole"
+#define APP_NAME   "T2501_PicoConsol"
 #define MAIN_TITLE "Villa Astrid Console"
 
 typedef enum 
@@ -37,6 +37,7 @@ typedef enum
     UNIT_VOLTAGE,
     UNIT_TIME,
     UNIT_CO2,
+    UNIT_LUX,
     UNIT_NBR_OF
 } unit_et;
 
@@ -51,4 +52,6 @@ typedef struct date_time
     uint8_t   second;
  } date_time_st;
 
+
+ 
 #endif

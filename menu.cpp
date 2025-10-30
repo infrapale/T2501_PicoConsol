@@ -19,6 +19,11 @@ void menu_test1(void)
    Serial.printf("Test 1\n");
 }
 
+void dashboard_show_sensor_print(void);
+
+void dashboard_show_time_sensor(void);
+
+
 menu_row_st menu[MENU_NBR_OF] =
 {
   [MENU_MAIN] =
@@ -27,7 +32,7 @@ menu_row_st menu[MENU_NBR_OF] =
     {
       {"Main",MENU_MAIN, dummy_cb },
       {"Time",MENU_TIME, menu_test1 },
-      {"Sensor", MENU_SENSOR, dummy_cb},
+      {"Printer", MENU_SENSOR, dashboard_show_sensor_print},
       {"Outd", MENU_OUTDOOR, dummy_cb}
     }
   },
@@ -41,14 +46,14 @@ menu_row_st menu[MENU_NBR_OF] =
       {"Main", MENU_MAIN, dummy_cb}
     }
   },
-  [MENU_SENSOR] =
+  [MENU_SENSOR] =   // this menu is not visible
   {
     "Sensors", 
     {
-      {"Main",MENU_MAIN, dummy_cb },
+      {"Main",MENU_MAIN, dashboard_show_time_sensor },
       {"Prev.",MENU_SENSOR, dashboard_previous_sensor},
       {"Next", MENU_SENSOR, dashboard_next_sensor},
-      {"Main", MENU_MAIN, dummy_cb}
+      {"Main", MENU_MAIN, dashboard_show_time_sensor}
      }
   },
   [MENU_OUTDOOR] =

@@ -3,8 +3,8 @@
 
 #include "Arduino.h"
 #include "RTClib.h"
+#include "main.h"
 
-#define TIME_ZONE_OFFS        3
 #define TIME_ZONE_OFSET_SEC   (TIME_ZONE_OFFS * 3600)
 
 bool time_begin(void);

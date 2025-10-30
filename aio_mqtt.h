@@ -11,7 +11,7 @@ typedef enum
   AIO_SUBS_TRE_ID_HUM,   
   AIO_SUBS_LA_ID_TEMP,
   AIO_SUBS_VA_OD_TEMP,
-  AIO_SUBS_VA_OD_HUM,
+  AIO_SUBS_VA_OD_LUX,
   AIO_SUBS_RUUVI_E6_TEMP,
   AIO_SUBS_RUUVI_EA_TEMP,
   AIO_SUBS_RUUVI_ED_TEMP,
@@ -42,6 +42,8 @@ typedef struct
 
 
 void aio_mqtt_initialize(void);
+
+void aio_print_all(void);
 
 void aio_mqtt_stm();
 

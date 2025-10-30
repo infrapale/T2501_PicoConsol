@@ -28,6 +28,7 @@ https://learn.adafruit.com/dvi-io/code-the-dashboard
 #include "aio_mqtt.h"
 #include "log.h"
 #include "dashboard.h"
+#include "io.h"
 
 TFT_eSPI tft = TFT_eSPI();  // Invoke library, pins defined in User_Setup.h
 
@@ -35,21 +36,21 @@ TFT_eSPI tft = TFT_eSPI();  // Invoke library, pins defined in User_Setup.h
 void print_debug_task(void)
 {
   atask_print_status(true);
+  dashboard_debug_print();
 }
 
 //                                  123456789012345   ival  next  state  prev  cntr flag  call backup
-atask_st debug_task_handle    =   {"Debug Task     ", 30000,    0,     0,  255,    0,  1,  print_debug_task };
-
+atask_st debug_task_handle    =   {"Debug Task     ", 5000,    0,     0,  255,    0,  1,  print_debug_task };
 
 uint32_t  targetTime = 0; 
 
 void setup(void) {
   delay(3000);
-  // while (!Serial);
+  while (!Serial);
   Serial.begin(115200); // For debug
-  Serial.println(F("T2312_PicoConsol.ino"));
-  pinMode(TFT_BL, OUTPUT);  
-  digitalWrite(TFT_BL, HIGH);
+  Serial.println(F(APP_NAME));
+  Serial.printf(" Compiled: %s %s ",__DATE__, __TIME__);
+  
 
   Wire.setSDA(PIN_WIRE_SDA);
   Wire.setSCL(PIN_WIRE_SCL);
