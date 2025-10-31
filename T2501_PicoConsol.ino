@@ -1,8 +1,8 @@
 /************************************************************************************************************************************
-@title T2312_PicoConsol.ino
-@git  	https://github.com/infrapale/T2312_PicoConsol
+@title T2501_PicoConsol
+@git  	https://github.com/infrapale/T2501_PicoConsol
 ************************************************************************************************************************************
-@HW Raspberry Pi Pico W on a pico TFT classig board
+@HW Raspberry Pi Pico W on a pico TFT classic board (2.8" TFT display + 4 Cherry key buttons)
 
 ************************************************************************************************************************************
 https://github.com/adafruit/Adafruit_MQTT_Library
@@ -17,21 +17,13 @@ https://learn.adafruit.com/dvi-io/code-the-dashboard
 #include "main.h"
 #include "io.h"
 #include "menu.h"
-#include <WiFi.h>
-#include "Adafruit_MQTT.h"
-#include "Adafruit_MQTT_Client.h"
-#include "secrets.h"
-#include <Wire.h>
-#include "RTClib.h"
 #include "time_func.h"
 #include "atask.h"
 #include "aio_mqtt.h"
-#include "log.h"
 #include "dashboard.h"
 #include "io.h"
 
 TFT_eSPI tft = TFT_eSPI();  // Invoke library, pins defined in User_Setup.h
-
 
 void print_debug_task(void)
 {
@@ -50,13 +42,11 @@ void setup(void) {
   Serial.begin(115200); // For debug
   Serial.println(F(APP_NAME));
   Serial.printf(" Compiled: %s %s ",__DATE__, __TIME__);
-  
 
   Wire.setSDA(PIN_WIRE_SDA);
   Wire.setSCL(PIN_WIRE_SCL);
   Wire.begin();
   time_begin();
-
   
   atask_initialize();
   atask_add_new(&debug_task_handle);

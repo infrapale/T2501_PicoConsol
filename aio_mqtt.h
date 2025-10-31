@@ -2,6 +2,8 @@
 #define __AIO_MQTT_H__
 
 #define   LOCATION_LABEL_LEN   20
+#define   MAX_UPDATE_10_MIN     10*60*60*1000
+#define   MAX_UPDATE_1_H        60*60*60*1000
 #include "Adafruit_MQTT.h"
 
 typedef enum 
@@ -25,7 +27,16 @@ typedef enum
   AIO_SUBS_NBR_OF
 } aio_subs_et;
 
-typedef void (*mqtt_cb)(void);
+typedef enum
+{
+  SENSOR_UNDEFINED = 0,
+  SENSOR_ACTIVE,
+  SENSOR_UPDATED,
+  SENSOR_TIMEOUT,
+  SENSOR_NBR_OF
+} sensor_state_et;
+
+typedef void (*mqtt_cb)(double tmp);
 
 typedef struct
 {
@@ -33,17 +44,23 @@ typedef struct
   char                    location[LOCATION_LABEL_LEN];
   unit_et                 unit_index;
   float                   value;
+  float                   min_value;
+  float                   max_value;
+  sensor_state_et         state;
   bool                    active;
   bool                    updated;
   uint32_t                show_interval_ms;
   uint32_t                show_next_ms;
+  uint32_t                max_update_interval;
+  uint32_t                next_update_limit;
+  mqtt_cb                 cb;
 } value_st;
 
 
 
 void aio_mqtt_initialize(void);
 
-void aio_print_all(void);
+
 
 void aio_mqtt_stm();
 

@@ -313,7 +313,7 @@ void dashboard_time_and_sensors(void)
                     dashboard_ctrl.show_sensor_value = true;
                     Serial.print("aio index: "); Serial.print(i); 
                     Serial.println(" = Updated ");
-                    //subs_data[i].updated = false;
+                    subs_data[i].updated = false;
                     Str = subs_data[i].location;
                     Str += " ";
                     Str.toCharArray(db_box[BOX_ROW_1].txt,40);
@@ -336,6 +336,7 @@ void dashboard_time_and_sensors(void)
                     }
                 }
                 subs_data[i].show_next_ms = millis() + subs_data[i].show_interval_ms;
+                if (millis() > subs_data[i].next_update_limit) subs_data[i].state = SENSOR_TIMEOUT;
             }
 
             if (dashboard_ctrl.sensor_indx < AIO_SUBS_NBR_OF - 1) dashboard_ctrl.sensor_indx++;    
@@ -411,7 +412,6 @@ void dashboard_show_time_sensor(void){
 
 void dashboard_next_sensor(void)
 {
-    //aio_print_all();
     dashboard_ctrl.menu_sensor_indx++;
     if(dashboard_ctrl.menu_sensor_indx >= AIO_SUBS_NBR_OF) dashboard_ctrl.menu_sensor_indx = AIO_SUBS_TRE_ID_TEMP;
     subs_data[dashboard_ctrl.menu_sensor_indx].show_next_ms = 0              ;

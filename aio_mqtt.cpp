@@ -72,13 +72,13 @@ Adafruit_MQTT_Subscribe lilla_astrid_id_temp    = Adafruit_MQTT_Subscribe(&aio_m
 Adafruit_MQTT_Subscribe ruuvi_e6_temp           = Adafruit_MQTT_Subscribe(&aio_mqtt, AIO_USERNAME "/feeds/villaastrid.ruuvi-e6");
 Adafruit_MQTT_Subscribe ruuvi_ea_temp           = Adafruit_MQTT_Subscribe(&aio_mqtt, AIO_USERNAME "/feeds/villaastrid.ruuvi-ea");
 Adafruit_MQTT_Subscribe ruuvi_ed_temp           = Adafruit_MQTT_Subscribe(&aio_mqtt, AIO_USERNAME "/feeds/villaastrid.ruuvi-ed");
-Adafruit_MQTT_Subscribe dock_temp_bmp180        = Adafruit_MQTT_Subscribe(&aio_mqtt, IO_USERNAME "/feeds/villaastrid.dock-temp-bmp180");
-Adafruit_MQTT_Subscribe dock_temp_dht22         = Adafruit_MQTT_Subscribe(&aio_mqtt, IO_USERNAME "/feeds/villaastrid.dock-temp-dht22");
-Adafruit_MQTT_Subscribe dock_temp_water         = Adafruit_MQTT_Subscribe(&aio_mqtt, IO_USERNAME "/feeds/villaastrid.dock-temp-water");
-Adafruit_MQTT_Subscribe dock_ldr1               = Adafruit_MQTT_Subscribe(&aio_mqtt, IO_USERNAME "/feeds/villaastrid.dock-ldr1");
-Adafruit_MQTT_Subscribe test_scd30_temp         = Adafruit_MQTT_Subscribe(&aio_mqtt, IO_USERNAME "/feeds/test.scd30-temperature");
-Adafruit_MQTT_Subscribe test_scd30_hum          = Adafruit_MQTT_Subscribe(&aio_mqtt, IO_USERNAME "/feeds/test.scd30-humidity");
-Adafruit_MQTT_Subscribe test_scd30_co2          = Adafruit_MQTT_Subscribe(&aio_mqtt, IO_USERNAME "/feeds/test.scd30-co2");
+Adafruit_MQTT_Subscribe dock_temp_bmp180        = Adafruit_MQTT_Subscribe(&aio_mqtt, AIO_USERNAME "/feeds/villaastrid.dock-temp-bmp180");
+Adafruit_MQTT_Subscribe dock_temp_dht22         = Adafruit_MQTT_Subscribe(&aio_mqtt, AIO_USERNAME "/feeds/villaastrid.dock-temp-dht22");
+Adafruit_MQTT_Subscribe dock_temp_water         = Adafruit_MQTT_Subscribe(&aio_mqtt, AIO_USERNAME "/feeds/villaastrid.dock-temp-water");
+Adafruit_MQTT_Subscribe dock_ldr1               = Adafruit_MQTT_Subscribe(&aio_mqtt, AIO_USERNAME "/feeds/villaastrid.dock-ldr1");
+Adafruit_MQTT_Subscribe test_scd30_temp         = Adafruit_MQTT_Subscribe(&aio_mqtt, AIO_USERNAME "/feeds/test.scd30-temperature");
+Adafruit_MQTT_Subscribe test_scd30_hum          = Adafruit_MQTT_Subscribe(&aio_mqtt, AIO_USERNAME "/feeds/test.scd30-humidity");
+Adafruit_MQTT_Subscribe test_scd30_co2          = Adafruit_MQTT_Subscribe(&aio_mqtt, AIO_USERNAME "/feeds/test.scd30-co2");
 
 Adafruit_MQTT_Subscribe timefeed                = Adafruit_MQTT_Subscribe(&aio_mqtt, "time/seconds");
 
@@ -89,24 +89,43 @@ Adafruit_MQTT_Publish *aio_publ[AIO_PUBL_NBR_OF] =
   [AIO_PUBL_VA_AC_TEMP]  = &villa_astrid_home_mode
 };
 
+
+void save_subs_float_data(uint8_t subs_indx);
+void cb_dummy(double tmp) {};
+void cb_tre_id_temp(double tmp) {save_subs_float_data(AIO_SUBS_TRE_ID_TEMP);}
+void cb_tre_id_hum(double tmp){ save_subs_float_data(AIO_SUBS_TRE_ID_HUM);}
+void cb_lilla_astrid_id_temp(double tmp){ save_subs_float_data(AIO_SUBS_LA_ID_TEMP);}
+void cb_villa_astrid_od_temp(double tmp){ save_subs_float_data(AIO_SUBS_VA_OD_TEMP);}
+void cb_villa_astrid_od_lux(double tmp){ save_subs_float_data(AIO_SUBS_VA_OD_LUX);}
+void cb_ruuvi_e6_temp(double tmp){save_subs_float_data(AIO_SUBS_RUUVI_E6_TEMP);}
+void cb_ruuvi_ea_temp(double tmp){save_subs_float_data(AIO_SUBS_RUUVI_EA_TEMP);}
+void cb_ruuvi_ed_temp(double tmp){save_subs_float_data(AIO_SUBS_RUUVI_ED_TEMP);}
+void cb_dock_bmp180_temp(double tmp){save_subs_float_data(AIO_SUBS_DOCK_TEMP_BMP180);}
+void cb_dock_dht22_temp(double tmp){save_subs_float_data(AIO_SUBS_DOCK_TEMP_DHT22);}
+void cb_dock_water_temp(double tmp){save_subs_float_data(AIO_SUBS_DOCK_TEMP_WATER);}
+void cb_dock_ldr1(double tmp){save_subs_float_data(AIO_SUBS_DOCK_LDR1);}
+void cb_test_scd3_temp(double tmp){save_subs_float_data(AIO_SUBS_SCD30_TEMP);}
+void cb_test_scd3_hum(double tmp){save_subs_float_data(AIO_SUBS_SCD30_HUM);}
+void cb_test_scd3_co2(double tmp){save_subs_float_data(AIO_SUBS_SCD30_CO2);}
+
 value_st subs_data[AIO_SUBS_NBR_OF]
 {  //                                                      1234567890123456789
-  [AIO_SUBS_TIME]             = { &timefeed,              "Adafruit Time      ",  UNIT_TIME,        0.0, true, false, 60000,  0},
-  [AIO_SUBS_TRE_ID_TEMP]      = { &tre_id_temp_feed,      "Tampere          OD",  UNIT_TEMPERATURE, 0.0, true, false, 120000, 0},
-  [AIO_SUBS_TRE_ID_HUM]       = { &tre_id_hum_feed,       "Tampere          OD",  UNIT_HUMIDITY,    0.0, true, false, 300000, 0},
-  [AIO_SUBS_LA_ID_TEMP]       = { &lilla_astrid_id_temp,  "Lilla Astrid     ID",  UNIT_TEMPERATURE, 0.0, true, false, 120000, 0},
-  [AIO_SUBS_VA_OD_TEMP]       = { &villa_astrid_od_temp,  "Villa Astrid     OD",  UNIT_TEMPERATURE, 0.0, true, false, 60000,  0},
-  [AIO_SUBS_VA_OD_LUX]        = { &villa_astrid_od_lux,   "Villa Astrid     OD",  UNIT_LUX,         0.0, true, false, 120000, 0},
-  [AIO_SUBS_RUUVI_E6_TEMP]    = { &ruuvi_e6_temp,         "Ruuvi Tag E6       ",  UNIT_TEMPERATURE, 0.0, true, false, 60000,  0},
-  [AIO_SUBS_RUUVI_EA_TEMP]    = { &ruuvi_ea_temp,         "Ruuvi Tag EA       ",  UNIT_TEMPERATURE, 0.0, true, false, 60000,  0},
-  [AIO_SUBS_RUUVI_ED_TEMP]    = { &ruuvi_ed_temp,         "Ruuvi Tag ED       ",  UNIT_TEMPERATURE, 0.0, true, false, 60000,  0},
-  [AIO_SUBS_DOCK_TEMP_BMP180] = { &dock_temp_bmp180,      "Dock BMP180        ",  UNIT_TEMPERATURE, 0.0, true, false, 60000,  0},
-  [AIO_SUBS_DOCK_TEMP_DHT22]  = { &dock_temp_dht22,       "Dock DHT22         ",  UNIT_TEMPERATURE, 0.0, true, false, 60000,  0},
-  [AIO_SUBS_DOCK_TEMP_WATER]  = { &dock_temp_water,       "Dock Water         ",  UNIT_TEMPERATURE, 0.0, true, false, 60000,  0},
-  [AIO_SUBS_DOCK_LDR1]        = { &dock_ldr1,             "Dock LDR1          ",  UNIT_LDR,         0.0, true, false, 60000,  0},
-  [AIO_SUBS_SCD30_TEMP]       = { &test_scd30_temp,       "Test SCD30         ",  UNIT_TEMPERATURE, 0.0, true, false, 60000,  0},
-  [AIO_SUBS_SCD30_HUM]        = { &test_scd30_hum,        "Test SCD30         ",  UNIT_HUMIDITY,    0.0, true, false, 60000,  0},
-  [AIO_SUBS_SCD30_CO2]        = { &test_scd30_co2,        "Test SCD30         ",  UNIT_CO2,         0.0, true, false, 60000,  0},
+  [AIO_SUBS_TIME]             = { &timefeed,              "Adafruit Time      ",  UNIT_TIME,        0.0, 0.0, 0.0,      SENSOR_ACTIVE, true, false, 60000,  0, MAX_UPDATE_10_MIN, 0,  cb_dummy},
+  [AIO_SUBS_TRE_ID_TEMP]      = { &tre_id_temp_feed,      "Tampere          OD",  UNIT_TEMPERATURE, 0.0, 18.0, 30.0,    SENSOR_ACTIVE, true, false, 120000, 0, MAX_UPDATE_10_MIN, 0,  cb_tre_id_temp},
+  [AIO_SUBS_TRE_ID_HUM]       = { &tre_id_hum_feed,       "Tampere          OD",  UNIT_HUMIDITY,    0.0, 20.0, 80.0,    SENSOR_ACTIVE, true, false, 300000, 0, MAX_UPDATE_10_MIN, 0,  cb_tre_id_hum},
+  [AIO_SUBS_LA_ID_TEMP]       = { &lilla_astrid_id_temp,  "Lilla Astrid     ID",  UNIT_TEMPERATURE, 0.0, 18.0, 30.0,    SENSOR_ACTIVE, true, false, 120000, 0, MAX_UPDATE_10_MIN, 0,  cb_lilla_astrid_id_temp},
+  [AIO_SUBS_VA_OD_TEMP]       = { &villa_astrid_od_temp,  "Villa Astrid     OD",  UNIT_TEMPERATURE, 0.0, -35.0, 40.0,   SENSOR_ACTIVE, true, false, 60000,  0, MAX_UPDATE_10_MIN, 0,  cb_villa_astrid_od_temp},
+  [AIO_SUBS_VA_OD_LUX]        = { &villa_astrid_od_lux,   "Villa Astrid     OD",  UNIT_LUX,         0.0, 0.0, 1000.0,   SENSOR_ACTIVE, true, false, 120000, 0, MAX_UPDATE_10_MIN, 0,  cb_villa_astrid_od_lux},
+  [AIO_SUBS_RUUVI_E6_TEMP]    = { &ruuvi_e6_temp,         "Ruuvi Tag E6       ",  UNIT_TEMPERATURE, 0.0, 18.0, 30.0,    SENSOR_ACTIVE, true, false, 60000,  0, MAX_UPDATE_10_MIN, 0,  cb_ruuvi_e6_temp},
+  [AIO_SUBS_RUUVI_EA_TEMP]    = { &ruuvi_ea_temp,         "Ruuvi Tag EA       ",  UNIT_TEMPERATURE, 0.0, 18.0, 30.0,    SENSOR_ACTIVE, true, false, 60000,  0, MAX_UPDATE_10_MIN, 0,  cb_ruuvi_ea_temp},
+  [AIO_SUBS_RUUVI_ED_TEMP]    = { &ruuvi_ed_temp,         "Ruuvi Tag ED       ",  UNIT_TEMPERATURE, 0.0, 18.0, 30.0,    SENSOR_ACTIVE, true, false, 60000,  0, MAX_UPDATE_10_MIN, 0,  cb_ruuvi_ed_temp},
+  [AIO_SUBS_DOCK_TEMP_BMP180] = { &dock_temp_bmp180,      "Dock BMP180        ",  UNIT_TEMPERATURE, 0.0,-35.0, 40.0,    SENSOR_ACTIVE, true, false, 60000,  0, MAX_UPDATE_10_MIN, 0,  cb_dock_bmp180_temp},
+  [AIO_SUBS_DOCK_TEMP_DHT22]  = { &dock_temp_dht22,       "Dock DHT22         ",  UNIT_TEMPERATURE, 0.0,-35.0, 40.0,    SENSOR_ACTIVE, true, false, 60000,  0, MAX_UPDATE_10_MIN, 0,  cb_dock_dht22_temp},
+  [AIO_SUBS_DOCK_TEMP_WATER]  = { &dock_temp_water,       "Dock Water         ",  UNIT_TEMPERATURE, 0.0, 0.0,  30.0,    SENSOR_ACTIVE, true, false, 60000,  0, MAX_UPDATE_10_MIN, 0,  cb_dock_water_temp},
+  [AIO_SUBS_DOCK_LDR1]        = { &dock_ldr1,             "Dock LDR1          ",  UNIT_LDR,         0.0, 0.0, 100.0,    SENSOR_ACTIVE, true, false, 60000,  0, MAX_UPDATE_10_MIN, 0,  cb_dock_ldr1},
+  [AIO_SUBS_SCD30_TEMP]       = { &test_scd30_temp,       "Test SCD30         ",  UNIT_TEMPERATURE, 0.0, 18.0, 30.0,    SENSOR_ACTIVE, true, false, 60000,  0, MAX_UPDATE_10_MIN, 0,  cb_test_scd3_temp},
+  [AIO_SUBS_SCD30_HUM]        = { &test_scd30_hum,        "Test SCD30         ",  UNIT_HUMIDITY,    0.0, 20.0, 80.0,    SENSOR_ACTIVE, true, false, 60000,  0, MAX_UPDATE_10_MIN, 0,  cb_test_scd3_hum},
+  [AIO_SUBS_SCD30_CO2]        = { &test_scd30_co2,        "Test SCD30         ",  UNIT_CO2,         0.0, 20.0, 2000.0,  SENSOR_ACTIVE, true, false, 60000,  0, MAX_UPDATE_10_MIN, 0,  cb_test_scd3_co2},
 
 };
 
@@ -126,31 +145,14 @@ void aio_mqtt_initialize(void)
     // this task is called from the loop1() and is not running as a atask
     aio_mqtt_task.state = 0;
     aio_mqtt_task.prev_state = 255;
-}
 
-void aio_print_all(void)
-{
-    char buff[40];
-    uint8_t row_indx = 0;
-    Serial.println("Subscriber data:");
-    for (uint8_t i = 0; i <AIO_SUBS_NBR_OF; i++)
+    for (uint8_t sindx= 0; sindx <  AIO_SUBS_NBR_OF; sindx++)
     {
-        Serial.printf("Sensor: %s %f %s is ", subs_data[i].location, subs_data[i].value, unit_label[subs_data[i].unit_index]);
-        if (subs_data[i].updated ) {
-            Serial.println("updated");
-            sprintf(buff, "%s %3.1f %s ", subs_data[i].location, subs_data[i].value, unit_label[subs_data[i].unit_index] );  
-            
-
-            if(subs_data[i].value > 10.0)
-              dashboard_print_row(-1, buff, TFT_WHITE, TFT_BLACK);
-            else if (subs_data[i].value < 8.0)
-              dashboard_print_row(-1, buff, TFT_WHITE, TFT_BLUE);
-            else
-              dashboard_print_row(-1, buff, TFT_WHITE, TFT_BLUE);
-            if (row_indx < NBR_BASIC_ROWS-1 ) row_indx++;
+        if (subs_data[sindx].state != SENSOR_UNDEFINED){
+            subs_data[sindx].next_update_limit= millis() + subs_data[sindx].max_update_interval;
         }
-        else Serial.println("not updated");
     }
+
 }
 
 int8_t aio_mqtt_connect() {
@@ -183,7 +185,6 @@ int8_t aio_mqtt_connect() {
 }
 
 
-
 void print_subs_data(uint8_t subs_indx)
 {
     char buff[40];
@@ -192,13 +193,18 @@ void print_subs_data(uint8_t subs_indx)
     Serial.println((char*)subs_data[subs_indx].aio_subs->lastread);
     sprintf(buff,"%s = %3.1f %s",subs_data[subs_indx].location, subs_data[subs_indx].value, unit_label[subs_data[subs_indx].unit_index] );
 
-    if(subs_data[subs_indx].value > 10.0)
-      dashboard_print_row(-1, buff, TFT_WHITE, TFT_BLACK);
-    else if (subs_data[subs_indx].value < 6.0)
+    if (subs_data[subs_indx].state == SENSOR_TIMEOUT) {
+        sprintf(buff, "%s Timeout", subs_data[subs_indx].location );  
+        dashboard_print_row(-1, buff, TFT_WHITE, TFT_DARKCYAN);
+        Serial.println("Sensor Timeout");
+        subs_data[subs_indx].state = SENSOR_ACTIVE;
+    }
+    else if(subs_data[subs_indx].value > subs_data[subs_indx].max_value)
       dashboard_print_row(-1, buff, TFT_WHITE, TFT_RED);
+    else if (subs_data[subs_indx].value < subs_data[subs_indx].min_value)
+      dashboard_print_row(-1, buff, TFT_WHITE, TFT_BLUE);
     else
-      dashboard_print_row(-1, buff, TFT_YELLOW, TFT_BLUE);
-
+      dashboard_print_row(-1, buff, TFT_WHITE, TFT_DARKCYAN);
 }
 
 
@@ -210,6 +216,8 @@ void save_subs_float_data(uint8_t subs_indx)
     subs_data[subs_indx].updated = true;
     print_subs_data(subs_indx);
 }
+
+
 
 void cb_time(uint32_t feed_time) 
 {
@@ -231,30 +239,6 @@ void cb_time(uint32_t feed_time)
     print_subs_data(sindx);    
 }
 
-void cb_tre_id_temp(double tmp) {save_subs_float_data(AIO_SUBS_TRE_ID_TEMP);}
-void cb_tre_id_hum(double tmp){ save_subs_float_data(AIO_SUBS_TRE_ID_HUM);}
-void cb_lilla_astrid_id_temp(double tmp){ save_subs_float_data(AIO_SUBS_LA_ID_TEMP);}
-void cb_villa_astrid_od_temp(double tmp){ save_subs_float_data(AIO_SUBS_VA_OD_TEMP);}
-void cb_villa_astrid_od_lux(double tmp){ save_subs_float_data(AIO_SUBS_VA_OD_LUX);}
-void cb_ruuvi_e6_temp(double tmp){save_subs_float_data(AIO_SUBS_RUUVI_E6_TEMP);}
-void cb_ruuvi_ea_temp(double tmp){save_subs_float_data(AIO_SUBS_RUUVI_EA_TEMP);}
-void cb_ruuvi_ed_temp(double tmp){save_subs_float_data(AIO_SUBS_RUUVI_ED_TEMP);}
-void cb_dock_bmp180_temp(double tmp){save_subs_float_data(AIO_SUBS_DOCK_TEMP_BMP180);}
-void cb_dock_dht22_temp(double tmp){save_subs_float_data(AIO_SUBS_DOCK_TEMP_DHT22);}
-void cb_dock_water_temp(double tmp){save_subs_float_data(AIO_SUBS_DOCK_TEMP_WATER);}
-void cb_dock_ldr1(double tmp){save_subs_float_data(AIO_SUBS_DOCK_LDR1);}
-void cb_test_scd3_temp(double tmp){save_subs_float_data(AIO_SUBS_SCD30_TEMP);}
-void cb_test_scd3_hum(double tmp){save_subs_float_data(AIO_SUBS_SCD30_HUM);}
-void cb_test_scd3_co2(double tmp){save_subs_float_data(AIO_SUBS_SCD30_CO2);}
-
-
-void cb_xx(char *data, uint16_t len)
-{
-  Serial.print(">>>>CB: ");
-  Serial.println(data);
-}
-
-void cb_dummy(double tmp) {}
 
 
 void activate_subscriptions(void)
@@ -298,20 +282,12 @@ void aio_mqtt_stm(void)
             break;
         case 20: 
             subs_data[AIO_SUBS_TIME].aio_subs->setCallback(cb_time); 
-            subs_data[AIO_SUBS_TRE_ID_TEMP].aio_subs->setCallback(cb_tre_id_temp);
-            subs_data[AIO_SUBS_TRE_ID_HUM].aio_subs->setCallback(cb_tre_id_hum);
-            subs_data[AIO_SUBS_LA_ID_TEMP].aio_subs->setCallback(cb_lilla_astrid_id_temp);
-            subs_data[AIO_SUBS_VA_OD_TEMP].aio_subs->setCallback(cb_villa_astrid_od_temp);
-            subs_data[AIO_SUBS_VA_OD_LUX].aio_subs->setCallback(cb_villa_astrid_od_lux);
-            subs_data[AIO_SUBS_RUUVI_E6_TEMP].aio_subs->setCallback(cb_ruuvi_e6_temp);
-            subs_data[AIO_SUBS_RUUVI_EA_TEMP].aio_subs->setCallback(cb_ruuvi_ea_temp);
-            subs_data[AIO_SUBS_DOCK_TEMP_BMP180].aio_subs->setCallback(cb_dock_bmp180_temp);
-            subs_data[AIO_SUBS_DOCK_TEMP_DHT22].aio_subs->setCallback(cb_dock_dht22_temp);
-            subs_data[AIO_SUBS_DOCK_TEMP_WATER].aio_subs->setCallback(cb_dock_water_temp);
-            subs_data[AIO_SUBS_DOCK_LDR1].aio_subs->setCallback(cb_dock_ldr1);
-            subs_data[AIO_SUBS_SCD30_TEMP].aio_subs->setCallback(cb_test_scd3_temp);
-            subs_data[AIO_SUBS_SCD30_HUM].aio_subs->setCallback(cb_test_scd3_hum);
-            subs_data[AIO_SUBS_SCD30_CO2].aio_subs->setCallback(cb_test_scd3_co2);
+
+            for (uint8_t subs_indx = AIO_SUBS_TRE_ID_TEMP; subs_indx < AIO_SUBS_NBR_OF; subs_indx++)
+            {
+                subs_data[subs_indx].aio_subs->setCallback(subs_data[subs_indx].cb);
+            }
+
             aio_mqtt_task.state = 30;
             break;
         case 30:
