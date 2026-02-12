@@ -12,9 +12,9 @@ https://learn.adafruit.com/dvi-io/code-the-dashboard
 ***********************************************************************************************************************************/
 
 
+#include "main.h"
 #include <TFT_eSPI.h> // Graphics and font library for ILI9341 driver chip
 #include <SPI.h>
-#include "main.h"
 #include "io.h"
 #include "menu.h"
 #include "time_func.h"

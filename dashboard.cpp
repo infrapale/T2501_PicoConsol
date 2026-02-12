@@ -11,6 +11,8 @@
 #include "time_func.h"
 #include "menu.h"
 #include "atask.h"
+#include <SPI.h>
+
 
 #define NBR_BOXES           7
 
@@ -72,6 +74,7 @@ typedef struct
     uint8_t     pir_value;
 } dashboard_backlight_st;
 
+SPISettings mySPISettings(1000000, MSBFIRST, SPI_MODE0); // 4 MHz clock
 
 dashboard_ctrl_st dashboard_ctrl    = {DASHBOARD_TIME_SENSOR, false, true, false, AIO_SUBS_TRE_ID_TEMP, 0, 0, false};
 
@@ -145,8 +148,9 @@ void dashboard_initialize(void)
     pinMode(PIN_PIR_INP,INPUT);
     pinMode(PIN_LDR_ANALOG_INP,INPUT);
     analogReadResolution(12);
-    analogWrite(PIN_TFT_LED_OUT,30);
-
+    analogWrite(PIN_TFT_LED_OUT,200);
+    
+    SPI.beginTransaction(mySPISettings);
     tft.init();
     dashboard_clear();
 }
@@ -493,5 +497,7 @@ void dashboard_backlight_task(void)
             if (millis() > backlight.timeout) bl_task.state = 10;
             break;
     }
-    analogWrite(PIN_TFT_LED_OUT, backlight.bl_pwm);
+    //analogWrite(PIN_TFT_LED_OUT, backlight.bl_pwm);
+    analogWrite(PIN_TFT_LED_OUT, 200);
+
 }

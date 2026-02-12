@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <Arduino.h>
+#include "main.h"
 #include <TFT_eSPI.h> 
 
 typedef struct

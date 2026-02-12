@@ -2,7 +2,11 @@
 #define __MAIN_H__
 
 
+// TFT definitions selects the correct TFT library settings
 #define BOARD_PICO_TFT_4KEYS
+//#define BOARD_TFT_4_QUADCORE_PICO
+
+
 #define PIRPANA
 //#define LILLA_ASTRID
 //#define VILLA_ASTRID
