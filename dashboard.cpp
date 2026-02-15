@@ -144,15 +144,16 @@ void dashboard_initialize(void)
     atask_add_new(&dashboard_task_handle);
     atask_add_new(&bl_task);
 
-    pinMode(PIN_TFT_LED_OUT, OUTPUT);
+    pinMode(PIN_TFT_LED, OUTPUT);
     pinMode(PIN_PIR_INP,INPUT);
     pinMode(PIN_LDR_ANALOG_INP,INPUT);
     analogReadResolution(12);
-    analogWrite(PIN_TFT_LED_OUT,200);
+    analogWrite(PIN_TFT_LED,200);
     
     SPI.beginTransaction(mySPISettings);
     tft.init();
     dashboard_clear();
+    tft.fillScreen(TFT_MAROON);
 }
 
 
@@ -498,6 +499,6 @@ void dashboard_backlight_task(void)
             break;
     }
     //analogWrite(PIN_TFT_LED_OUT, backlight.bl_pwm);
-    analogWrite(PIN_TFT_LED_OUT, 200);
+    analogWrite(PIN_TFT_LED, 200);
 
 }

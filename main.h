@@ -3,8 +3,10 @@
 
 
 // TFT definitions selects the correct TFT library settings
-#define BOARD_PICO_TFT_4KEYS
-//#define BOARD_TFT_4_QUADCORE_PICO
+// Must be set in the TFT_eSPI Library
+#define BOARD_PICO_TFT_4KEYS        1
+#define BOARD_TFT_4_QUADCORE_PICO   2
+#define TFT_TARGET_BOARD            BOARD_PICO_TFT_4KEYS
 
 
 #define PIRPANA
