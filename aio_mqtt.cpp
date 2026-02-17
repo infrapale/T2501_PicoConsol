@@ -101,7 +101,7 @@ value_st subs_data[AIO_SUBS_NBR_OF]
 {  //  Index                      Feed                    " Label             "   Unit Index       value min  max       sensor state   activ update ival   a)  max update ival    b)  callback
   [AIO_SUBS_TIME]             = { &timefeed,              "Adafruit Time      ",  UNIT_TIME,        0.0, 0.0, 0.0,      SENSOR_ACTIVE, true, false, 60000,  0, MAX_UPDATE_10_MIN, 0,  cb_dummy},
   [AIO_SUBS_LA_ID_TEMP]       = { &lilla_astrid_id_temp,  "Lilla Astrid     ID",  UNIT_TEMPERATURE, 0.0, 18.0, 30.0,    SENSOR_ACTIVE, true, false, 120000, 0, MAX_UPDATE_10_MIN, 0,  cb_lilla_astrid_id_temp},
-  [AIO_SUBS_VA_ID_TEMP]       = { &villa_astrid_id_temp,  "Villa Astrid   Tupa",  UNIT_TEMPERATURE, 0.0, 18.0, 30.0,    SENSOR_ACTIVE, true, false, 120000, 0, MAX_UPDATE_10_MIN, 0,  cb_villa_astrid_id_temp},
+  [AIO_SUBS_VA_ID_TEMP]       = { &villa_astrid_id_temp,  "Villa Astrid   Tupa",  UNIT_TEMPERATURE, 0.0, 18.0, 30.0,    SENSOR_ACTIVE, true, false, 60000, 0, MAX_UPDATE_10_MIN, 0,  cb_villa_astrid_id_temp},
   [AIO_SUBS_VA_OD_TEMP]       = { &villa_astrid_od_temp,  "Villa Astrid     OD",  UNIT_TEMPERATURE, 0.0, -35.0, 40.0,   SENSOR_ACTIVE, true, false, 60000,  0, MAX_UPDATE_10_MIN, 0,  cb_villa_astrid_od_temp},
   [AIO_SUBS_VA_OD_LUX]        = { &villa_astrid_od_lux,   "Villa Astrid     OD",  UNIT_LUX,         0.0, 0.0, 1000.0,   SENSOR_ACTIVE, true, false, 120000, 0, MAX_UPDATE_10_MIN, 0,  cb_villa_astrid_od_lux},
   [AIO_SUBS_RUUVI_E6_TEMP]    = { &ruuvi_e6_temp,         "Ruuvi Tag E6       ",  UNIT_TEMPERATURE, 0.0, 18.0, 30.0,    SENSOR_ACTIVE, true, false, 60000,  0, MAX_UPDATE_10_MIN, 0,  cb_ruuvi_e6_temp},
