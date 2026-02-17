@@ -76,7 +76,7 @@ typedef struct
 
 SPISettings mySPISettings(1000000, MSBFIRST, SPI_MODE0); // 4 MHz clock
 
-dashboard_ctrl_st dashboard_ctrl    = {DASHBOARD_TIME_SENSOR, false, true, false, AIO_SUBS_TRE_ID_TEMP, 0, 0, false};
+dashboard_ctrl_st dashboard_ctrl    = {DASHBOARD_TIME_SENSOR, false, true, false, AIO_SUBS_LA_ID_TEMP, 0, 0, false};
 
 // extern value_st subs_data[];
 dashboard_backlight_st backlight = {0};
@@ -345,7 +345,7 @@ void dashboard_time_and_sensors(void)
             }
 
             if (dashboard_ctrl.sensor_indx < AIO_SUBS_NBR_OF - 1) dashboard_ctrl.sensor_indx++;    
-            else dashboard_ctrl.sensor_indx = AIO_SUBS_TRE_ID_TEMP;
+            else dashboard_ctrl.sensor_indx = AIO_SUBS_FIRST;
             
             if (update_box )
             {
@@ -418,7 +418,7 @@ void dashboard_show_time_sensor(void){
 void dashboard_next_sensor(void)
 {
     dashboard_ctrl.menu_sensor_indx++;
-    if(dashboard_ctrl.menu_sensor_indx >= AIO_SUBS_NBR_OF) dashboard_ctrl.menu_sensor_indx = AIO_SUBS_TRE_ID_TEMP;
+    if(dashboard_ctrl.menu_sensor_indx >= AIO_SUBS_NBR_OF) dashboard_ctrl.menu_sensor_indx = AIO_SUBS_FIRST;
     subs_data[dashboard_ctrl.menu_sensor_indx].show_next_ms = 0              ;
     dashboard_ctrl.sensor_indx = dashboard_ctrl.menu_sensor_indx;
     Serial.printf("dashboard_ctrl.menu_sensor_indx=%d\n",dashboard_ctrl.menu_sensor_indx);
